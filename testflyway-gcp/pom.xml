@@ -1,16 +1,18 @@
-  <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com</groupId>
-  <artifactId>testflyway-gcp</artifactId>
+  <artifactId>testflyway</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>testflyway-gcp</name>
+  <name>testflyway</name>
   <url>http://maven.apache.org</url>
 
   <properties>
+	     <maven.compiler.source>6</maven.compiler.source>
+   <maven.compiler.target>1.6</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -21,31 +23,47 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    	<dependency>
+		<groupId>org.postgresql</groupId>
+		<artifactId>postgresql</artifactId>
+		<version>42.3.3</version>
+	</dependency>
+    	<dependency>
+		<groupId>com.google.cloud.sql</groupId>
+		<!-- Need to use the j-6 variant if you want to use the My SQL connector version 6 above. -->
+		<artifactId>postgres-socket-factory</artifactId>
+		<version>1.4.4</version>
+	</dependency>
+		<dependency>
+		<groupId>org.flywaydb</groupId>
+		<artifactId>flyway-core</artifactId>
+		<version>4.0</version>
+	</dependency>
   </dependencies>
-  <plugins>
-        <plugin>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-maven-plugin</artifactId>
-            <version>8.5.2</version>
-            <!-- <dependencies>
-                <dependency>
-                    <groupId>org.postgresql</groupId>
-                    <artifactId>postgresql</artifactId>
-                    <version>42.2.14</version>
-                </dependency>
-            </dependencies> -->
-            <dependencies>
-              <dependency>
-                  <groupId>org.postgresql</groupId>
-                  <artifactId>postgresql</artifactId>
-                  <version>42.3.3</version>
-              </dependency>
-              <dependency>
-                  <groupId>com.google.cloud.sql</groupId>
-                  <artifactId>postgres-socket-factory</artifactId>
-                  <version>1.2.1</version>
-              </dependency>
-            </dependencies>
-        </plugin>
-      </plugins>  
+
+      <build>
+        <plugins>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>4.0.2</version>
+		<configuration>
+							<password>abc123</password>
+					<!-- Note: You can choose different values for the SSL properties (or omit them entirely) depending on your needs. -->
+					<!-- <url>jdbc:mysql://google/hello_world?cloudSqlInstance=${instance}&amp;socketFactory=com.google.cloud.sql.mysql.SocketFactory&amp;useSSL=true&amp;verifyServerCertificate=true&amp;requireSSL=true</url> -->
+					<user>postgres</user>
+						<!--<url>jdbc:postgresql:///postgres?cloudSqlInstance=gary-sandbox-337214:northamerica-northeast1:gary-db1&amp;socketFactory=com.google.cloud.sql.postgres.SocketFactory&amp;useSSL=true&amp;requireSSL=true&amp;enableIamAuth=true</url>-->
+						<url>jdbc:postgresql://10.58.129.3:5432/postgres</url>
+				</configuration>
+				<dependencies>
+				<dependency>
+                <groupId>com.google.cloud.sql</groupId>
+                <!-- Need to use the j-6 variant if you want to use the My SQL connector version 6 above. -->
+                <artifactId>postgres-socket-factory</artifactId>
+                <version>1.4.4</version>
+        </dependency>
+</dependencies>
+            </plugin>
+        </plugins>
+    </build>
 </project>
