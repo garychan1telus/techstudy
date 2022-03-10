@@ -1,0 +1,10 @@
+1. db creation and initial load to non-prod
+2. prod rollout
+3. enhancement
+4. incident rollback
+
+
+history
+
+command
+mvn -Dflyway.configFiles=./flyway.conf flyway:migrate
